@@ -13,7 +13,7 @@ from tensorflow.keras.layers.experimental.preprocessing import TextVectorization
 import tensorflow_datasets as tfds
 import logging
 
-TENSORBOARD_LOG_DIR = 'gs://ml-in-the-cloud-course/tensorboard-{}'.format(str(int(time.time())))
+TENSORBOARD_LOG_DIR = os.environ["AIP_TENSORBOARD_LOG_DIR"]
 
 logging.getLogger().setLevel(logging.INFO)
 

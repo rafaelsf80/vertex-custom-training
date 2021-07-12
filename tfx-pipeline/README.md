@@ -4,13 +4,16 @@ This demo is an alternative demo to the Taxi pipeline tutorial (structured data)
 * Uses a different dataset:
     * Unstructured data (not tabular)
     * Text classification
-* Uses TFX and Vertex Pipelines (uCAIP)
+* Uses TFX and Vertex Pipelines
 * TODO: Will offload to Vertex Training and Prediction managed services
 * TODO: Will show other MLOps managed features
 
+![Vertex pipelines result](tfx-pipeline.png)
+
+
 ## Instructions
 
-1. Create a Vertex notebook.
+1. Create a Vertex notebook
 2. Download `pipeline_dev.py` and modify the following constants: PROJECT_ID, REGION, API_KEY, PIPELINE_NAME, PIPELINE_ROOT, TFRECORDS_DIR_PATH, MODULE_FILE 
 3. Create an API key and modify `API_KEY` accordingly
 4. Upload `stackoverflow_utils.py` to GCS and modify `MODULE_FILE` accordingly
@@ -23,7 +26,7 @@ This demo is an alternative demo to the Taxi pipeline tutorial (structured data)
 2. Show the code: use Managed notebooks or your local dev environment, like VS Code.
 3. Give an overview of the code. Show the different components: First component is ExampleGen to get the data; second component is StatiscGen about analyzes data and outputs statistics; ...
 4. Show the different artifacts in the code
-5. Go to the **Managed Pipelines UI** and check the execution of your pipeline. Show nodes, logs, ... on uCAIP.
+5. Go to the **Managed Pipelines UI** and check the execution of your pipeline. Show nodes, logs, ... on Vertex.
 
 
 ## TFX intro

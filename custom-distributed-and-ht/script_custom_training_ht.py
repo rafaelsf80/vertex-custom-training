@@ -16,7 +16,7 @@ import hypertune
 import argparse
 import logging
 
-TENSORBOARD_LOG_DIR = 'gs://ml-in-the-cloud-course/tensorboard-ht/tensorboard-{}'.format(str(int(time.time())))
+TENSORBOARD_LOG_DIR = os.environ["AIP_TENSORBOARD_LOG_DIR"]
 
 logging.getLogger().setLevel(logging.INFO)
 
@@ -136,7 +136,7 @@ with strategy.scope():
         metrics=['accuracy'])
 
 #log_dir=os.environ['AIP_TENSORBOARD_LOG_DIR']
-hparams=[args.batch_size, args.lr, args.activation]
+#hparams=[args.batch_size, args.lr, args.activation]
 
 tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=TENSORBOARD_LOG_DIR, histogram_freq=1, profile_batch = '50,100') # log metrics
 #hp_callback = hp.KerasCallback(TENSORBOARD_LOG_DIR, hparams) # log hparams

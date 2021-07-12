@@ -12,7 +12,7 @@ from tensorflow.keras.layers.experimental.preprocessing import TextVectorization
 
 import logging
 
-TENSORBOARD_LOG_DIR = 'gs://ml-in-the-cloud-course/tensorboard-distributed-{}'.format(str(int(time.time())))
+TENSORBOARD_LOG_DIR = os.environ["AIP_TENSORBOARD_LOG_DIR"]
 
 logging.getLogger().setLevel(logging.INFO)
 

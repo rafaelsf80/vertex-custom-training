@@ -13,27 +13,18 @@ aiplatform.init(project=PROJECT_ID, staging_bucket=BUCKET)
 # Launch Training pipeline, a type of Vertex Training Job.
 # A Training pipeline integrates three steps into one job: Accessing a Managed Dataset (not used here), Training, and Model Upload. 
 job = aiplatform.CustomTrainingJob(
-    display_name="ml_in_the_cloud_custom_training_tb",
+    display_name="ml_in_the_cloud_custom_training_simple",
     script_path="script_custom_training.py",
-    container_uri="us-docker.pkg.dev/vertex-ai/training/tf-gpu.2-4:latest",
-    requirements=['gcsfs==0.7.1'],
-    model_serving_container_image_uri="us-docker.pkg.dev/vertex-ai/prediction/tf2-gpu.2-4:latest",
+    container_uri="us-docker.pkg.dev/vertex-ai/training/tf-cpu.2-3:latest",
+    model_serving_container_image_uri="us-docker.pkg.dev/vertex-ai/prediction/tf2-cpu.2-3:latest",
 )
 model = job.run(
-    model_display_name="ml_in_the_cloud_custom_training_tb",
-    replica_count=1,
-    service_account = SERVICE_ACCOUNT,
-    tensorboard = TENSORBOARD_RESOURCE,
-    machine_type = "n1-standard-4",
-    accelerator_type = "NVIDIA_TESLA_K80",
-    accelerator_count = 1
+    replica_count=1
 )
 print(model)
 
 # Deploy endpoint
-endpoint = model.deploy(machine_type='n1-standard-4', 
-    accelerator_type= "NVIDIA_TESLA_T4",
-    accelerator_count = 1)
+endpoint = model.deploy(machine_type='n1-standard-4')
 print(endpoint.resource_name)
 
 
