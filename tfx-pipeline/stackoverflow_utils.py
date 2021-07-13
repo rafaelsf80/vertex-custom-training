@@ -3,7 +3,7 @@ from __future__ import division
 from __future__ import print_function
 
 ############################################################################################
-# See MODULE_FILE constant at pipeline_dev.py to store this file
+# See MODULE_FILE constant at pipeline.py to store this file
 #############################################################################################
 
 from typing import List, Text

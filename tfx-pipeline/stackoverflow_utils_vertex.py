@@ -3,7 +3,7 @@ from __future__ import division
 from __future__ import print_function
 
 ############################################################################################
-# See MODULE_FILE constant at pipeline_dev.py to store this file
+# See MODULE_FILE constant at pipeline_vertex.py to store this file
 #############################################################################################
 
 _FEATURE_KEY = 'text'
@@ -40,13 +40,12 @@ import tensorflow_transform as tft
 import tensorflow_model_analysis as tfma
 from google.protobuf import text_format
 
-from tfx.components.trainer.fn_args_utils import FnArgs
+from tfx import v1 as tfx
 
 def _transformed_name(key, is_input=False):
   return key + ('_xf_input' if is_input else '_xf')
 
 def _tokenize_text(text):
-  print(text)
   text_sparse = tf.strings.split(tf.reshape(text, [-1])).to_sparse()
   # tft.apply_vocabulary doesn't reserve 0 for oov words. In order to comply
   # with convention and use mask_zero in keras.embedding layer, set oov value
@@ -164,6 +163,7 @@ def general_run_fn(
         returned dataset to combine in a single batch in the evaluation dataset.
     :param num_epochs: Number of epochs to run the training for.
     """
+
     tf_transform_output = tft.TFTransformOutput(fn_args.transform_output)
 
     train_dataset = _input_fn(

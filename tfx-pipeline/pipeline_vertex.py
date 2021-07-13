@@ -1,17 +1,6 @@
-# Currently a standard installation of TFX includes full ExampleGen components for these data sources and formats:
-# recordr ExampleGen usa Apache beam
-#CSV
-#tf.Record
-#BigQuery
-#Custom executors are also available which enable the development of ExampleGen components for these data sources and formats:
-#Avro
-#Parquet
-
-
 from typing import Text
 import absl
 import os
-import tensorflow as tf
 import tensorflow_model_analysis as tfma
 import kfp
 from tfx import v1 as tfx # !!
@@ -25,23 +14,18 @@ from tfx.components import Pusher
 from tfx.components import SchemaGen
 from tfx.components import StatisticsGen
 from tfx.components import Transform
-from tfx.components.trainer.executor import GenericExecutor
-from tfx.dsl.components.base import executor_spec
-from tfx.orchestration import data_types
 from tfx.proto import example_gen_pb2
 
-from tfx.extensions.google_cloud_ai_platform.pusher import executor as ai_platform_pusher_executor
-from tfx.extensions.google_cloud_ai_platform.trainer import executor as ai_platform_trainer_executor
-
-PROJECT_ID         = 'windy-site-254307'
+PROJECT_ID         = 'ml-in-the-cloud-vertex'
 REGION             = 'us-central1'
 PIPELINE_NAME      = 'ml-in-the-cloud-course-stackoverflow-nlp-vertex'
-PIPELINE_ROOT      = 'gs://ml-in-the-cloud-course/tfx-pipeline/stackoverflow-pipeline'
-DATA_ROOT          = 'gs://ml-in-the-cloud-course/tfx-pipeline/stackoverflow-pipeline/data'
-SERVING_MODEL_DIR  = 'gs://ml-in-the-cloud-course/tfx-pipeline/stackoverflow-pipeline/serving_model'
-TFRECORDS_DIR_PATH = 'gs://ml-in-the-cloud-course/tfx-pipeline/tfrecord'
-MODULE_FILE        = 'gs://ml-in-the-cloud-course/tfx-pipeline/stackoverflow_utils_gcp.py'
+PIPELINE_ROOT      = 'gs://ml-in-the-cloud-vertex-us/tfx-pipeline/stackoverflow-pipeline'
+DATA_ROOT          = 'gs://ml-in-the-cloud-vertex-us/tfx-pipeline/stackoverflow-pipeline/data'
+SERVING_MODEL_DIR  = 'gs://ml-in-the-cloud-vertex-us/tfx-pipeline/stackoverflow-pipeline/serving_model'
+TFRECORDS_DIR_PATH = 'gs://ml-in-the-cloud-vertex-us/tfx-pipeline/tfrecord'
+MODULE_FILE        = 'gs://ml-in-the-cloud-vertex-us/tfx-pipeline/stackoverflow_utils_vertex.py'
 
+# We will use CPUs only for now.
 USE_GPU = False
 
 # Create a helper function to construct a TFX pipeline.
@@ -101,6 +85,8 @@ def create_vertex_pipeline(pipeline_name: str, input_dir: Text, pipeline_root: s
     trainer = tfx.extensions.google_cloud_ai_platform.Trainer(
         module_file=module_file,
         examples=transform.outputs['transformed_examples'],
+        transform_graph=transform.outputs['transform_graph'],
+        schema=schema_gen.outputs['schema'],
         train_args=tfx.proto.TrainArgs(num_steps=3000),
         eval_args=tfx.proto.EvalArgs(num_steps=3000),
         custom_config={
@@ -181,7 +167,6 @@ _ = runner.run(
         serving_model_dir=SERVING_MODEL_DIR,
         project_id=PROJECT_ID,
         region=REGION,
-        # We will use CPUs only for now.
         use_gpu=USE_GPU))
 
 from kfp.v2.google import client

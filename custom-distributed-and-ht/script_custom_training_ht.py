@@ -135,7 +135,6 @@ with strategy.scope():
         optimizer='adam',
         metrics=['accuracy'])
 
-#log_dir=os.environ['AIP_TENSORBOARD_LOG_DIR']
 #hparams=[args.batch_size, args.lr, args.activation]
 
 tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=TENSORBOARD_LOG_DIR, histogram_freq=1, profile_batch = '50,100') # log metrics

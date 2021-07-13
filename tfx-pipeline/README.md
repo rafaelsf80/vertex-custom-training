@@ -1,32 +1,35 @@
 # Vertex Pipelines demo (TFX) with Stackoverflow dataset
 
-This demo is an alternative demo to the Taxi pipeline tutorial (structured data):
-* Uses a different dataset:
-    * Unstructured data (not tabular)
-    * Text classification
-* Uses TFX and Vertex Pipelines
-* TODO: Will offload to Vertex Training and Prediction managed services
+This demo shows how to run a vertex pipeline in two scenraios:
+* Using `tfx.components.Trainer` class (file `pipeline.py`)
+* Using `tfx.extensions.google_cloud_ai_platform.Trainer` class (file `pipeline_vertex.py`)
+
+This demo is an alternative one to the [Taxi pipeline tutorial](https://www.tensorflow.org/tfx/tutorials/tfx/cloud-ai-platform-pipelines):
+* Uses a different data type: unstructured data (not tabular) for text classification
+* Uses two scenarios for training: TFX and Vertex training
 * TODO: Will show other MLOps managed features
+
+The dataset is stored in **TFrecord format** at `TFRECORDS_DIR_PATH`.
+Use the tool `txt2tfrecord` to convert original dataset at https://storage.googleapis.com/download.tensorflow.org/data/stack_overflow_16k.tar.gz into **TFrecord format**.
 
 ![Vertex pipelines result](tfx-pipeline.png)
 
 
 ## Instructions
 
-1. Create a Vertex notebook
-2. Download `pipeline_dev.py` and modify the following constants: PROJECT_ID, REGION, API_KEY, PIPELINE_NAME, PIPELINE_ROOT, TFRECORDS_DIR_PATH, MODULE_FILE 
-3. Create an API key and modify `API_KEY` accordingly
-4. Upload `stackoverflow_utils.py` to GCS and modify `MODULE_FILE` accordingly
-3. Convert text files intro TFrecrod format with `txt2tfrecord.py`. Upload the resulting file into `TFRECORDS_DIR_PATH` on GCS
-5. Configure `GOOGLE_APPLICATION_CREDENTIALS` environment variable and download the key, then run the pipeline with `python pipeline_dev.py`
+1. Create a Vertex notebook and install the Vertex SDK with `pip install google-cloud aiplatform`.
+2. Download `pipeline.py` or `pipeline_vertex.py` and modify the following constants: PROJECT_ID, REGION, PIPELINE_NAME, PIPELINE_ROOT, MODULE_FILE, ...
+3. Upload `stackoverflow_utils.py` or `stackoverflow_utils_vertex.py` to GCS and modify `MODULE_FILE` accordingly.
+4. If not using a Vertex notebook, configure your credentials with `gcloud auth application-default login` or alternativaly, set `GOOGLE_APPLICATION_CREDENTIALS` environment variable with a JSON key.
+5. Run the pipeline with `python pipeline.py`
 
 ## Demo script
 
 1. The pipeline execution takes several minutes. Launch the pipeline before you make the preso.
-2. Show the code: use Managed notebooks or your local dev environment, like VS Code.
-3. Give an overview of the code. Show the different components: First component is ExampleGen to get the data; second component is StatiscGen about analyzes data and outputs statistics; ...
+2. Show the code: use Vertex notebooks or your local dev environment, like VS Code.
+3. Give an overview of the code. Show the different components: First component is `ExampleGen` to get the data; second component is `StatiscGen` about analyzes data and outputs statistics; ...
 4. Show the different artifacts in the code
-5. Go to the **Managed Pipelines UI** and check the execution of your pipeline. Show nodes, logs, ... on Vertex.
+5. Go to the **Vertex Pipelines UI** and check the execution of your pipeline. Show nodes, logs, ... on Vertex.
 
 
 ## TFX intro
@@ -66,10 +69,10 @@ Libraries which provide the base functionality for many of the standard componen
 1. First step (front end compiler) compiles to the Protobuf based IR format. 
 2. Second step compiles the IR to the native format supported by a given execution engine.
 
-Managed Pipelines in uCAIP uses TFX IR:
+Managed Pipelines in Vertex uses TFX IR:
 * `ai_platform_pipelines.ai_platform_pipelines_dag_runner`
 * `kubeflow.v2.kubeflow_v2_dag_runner`
-Do not use TFX IR:
+The following runners do not use TFX IR:
 * `airflow.airflow_dag_runner`
 * `beam.beam_dag_runner`
 * `experimental.kubernetes.kubernetes_dag_runner`
@@ -104,7 +107,6 @@ A very interesting functionality is **warm starting**, which allows not rerun th
 
 In 2019 Google announced [**TFX interactive context**](https://blog.tensorflow.org/2019/11/introducing-tfx-interactive-notebook.html), where you can build, debug, and run your TFX pipeline inside an interactive Google Colab or Jupyter notebook. Within this notebook environment, you can run **TFX component-by-component**, which makes it easier to iterate and experiment on your ML pipeline.
 
-
 ## TFX Pipelines and Components
 
 ### TFX Pipelines
@@ -138,7 +140,7 @@ A TFX pipeline is a **sequence of components** that implement an ML pipeline whi
 * **SchemaGen** creates a data schema
 * **ExampleValidator** looks for anomalies and missing values in the data
 * **Transform** performs feature engineering in the dataset
-* **Trainer** trains the model. Starting from TFX 0.14, training on AI Platform uses [custom containers](https://cloud.google.com/ml-engine/docs/containers-overview).You can specify a custom container in the `ai_platform_training_args` when creating the Runner at `kubeflow_dag_runner.KubeflowDagRunner`. If not specified, TFX will use a a public container image matching the installed version of TFX. Note that if you do specify a custom container, ensure the entrypoint calls into TFX's run_executor script (`tfx/scripts/run_executor.py`)
+* **Trainer** trains the model. Starting from TFX 0.14, training on Vertex AI uses [custom containers](https://cloud.google.com/ml-engine/docs/containers-overview).You can specify a custom container in the `ai_platform_training_args` when creating the Runner at `kubeflow_dag_runner.KubeflowDagRunner`. If not specified, TFX will use a a public container image matching the installed version of TFX. Note that if you do specify a custom container, ensure the entrypoint calls into TFX's run_executor script (`tfx/scripts/run_executor.py`)
 * **Resolver**: is a special component which handles special artifact resolution logics that will be used as inputs for downstream nodes. As inputs, you must pass an instance as well as a resolver strategy (for example: latest artifact, or latest blessed model) ...
 * **Tuner** tunes the hyperparameters of the model
 * **Evaluator** and **modelValidator** evaluates the performance of the model
@@ -157,5 +159,8 @@ There are three types of custom components:
 
 
 ## Resources
+
+[1] [Vertex AI training](https://www.tensorflow.org/tfx/tutorials/tfx/gcp/vertex_pipelines_vertex_training)
+
 
 

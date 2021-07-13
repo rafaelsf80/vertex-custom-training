@@ -1,11 +1,11 @@
 # Vertex Custom Training with Natural Language dataset (classification)
 
-There are three types of resources to train cusom models ion vertex AI:
+There are **three types** of resources to train custom models in Vertex AI:
 1. Training pipelines
 2. Custom jobs
 3. Hyperparameter tuning jobs
 
-## Training pipelines
+## 1. Training pipelines
 
 Resource to orchestrate a training pipeline that adds additional steps beyond training, such as:
 * loading a dataset 
@@ -13,50 +13,42 @@ Resource to orchestrate a training pipeline that adds additional steps beyond tr
 
 Training pipelines are implemented through the `aiplatform.CustomTrainingJob` class.
 
-You can implement distributed strategies for training using this class.
+You can implement training **distributed strategies** using this class.
 
 
-## Custom jobs
+## 2. Custom jobs
 
-Resource to train an ML model. 
-You must specify:
+Resource to train an ML model. You must specify:
 * Training code
 * Dependencies
 
-Custom job are implemented through the `aiplatform.CustomJob` class.
+Custom jobs are implemented through the `aiplatform.CustomJob` class.
 
 
-## Hyperparameter tuning jobs
+## 3. Hyperparameter tuning jobs
 
-Resource to implement hyperparameter tuning in a job. Based on a CustomJob, but has additional settings to configure, such as the metric.
+Resource to implement hyperparameter tuning job. Based on the CustomJob class, but has additional settings to configure, such as the metric.
 
-Hyperparameter tuning job are implemented through the `aiplatform.HyperparameterTuningJob` class.
+Hyperparameter tuning jobs are implemented through the `aiplatform.HyperparameterTuningJob` class.
 
 Note that the HyperparameterTuningJob class **do not accept** a CustomTrainingJob instance.
 
 You can combine distributed training with hyperparameter tuning.
 
-# TFX pipeline 
+# Vertex pipelines
 
-This code is an alternative demo to the Taxi pipeline tutorial (structured data):
-* Uses a different dataset:
-    * Unstructured data (not tabular)
-    * Text classification
-* Uses TFX and Vertex Pipelines
-* TODO: Will offload to Vertex Training and Prediction managed services
-* TODO: Will show other MLOps managed features
+A **Vertex pipeline** is not the same as a Training pipeline shown above. A Vertex pipeline can implement the full model workflow (from ingestion to deployment), while a training pipeline only focus on the "extended" training phase: download a dataset, training and upload the resulting model.
+
+The `tfx-pipeline`directory shows how to run a Vertex pipeline in two training scenarios:
+* Using `tfx.components.Trainer` class (file `pipeline.py`)
+* Using `tfx.extensions.google_cloud_ai_platform.Trainer` class (file `pipeline_vertex.py`)
 
 ![Vertex pipelines result](tfx-pipeline/tfx-pipeline.png)
 
 ## Dataset
 
-This demo is an alternative demo to the Taxi pipeline tutorial (structured data):
-* Uses a different dataset:
-    * Unstructured data (not tabular)
-    * Text classification
-
-Use the tool `txt2tfrecord` to convert original dataset at https://storage.googleapis.com/download.tensorflow.org/data/stack_overflow_16k.tar.gz into TFrecord format.
+The dataset used for training is the Stackoverflow dataset at https://storage.googleapis.com/download.tensorflow.org/data/stack_overflow_16k.tar. The Vertex pipelines code use the same dataset converted to **TFRecord format**.
 
 ## Resources
-
-[1] Codelab with MultiWorkerMirroredStrategy: https://codelabs.developers.google.com/vertex_multiworker_training#6
+[1] [Custom training in Vertex](https://cloud.google.com/vertex-ai/docs/training/custom-training-methods)
+[2] [Codelab with MultiWorkerMirroredStrategy](https://codelabs.developers.google.com/vertex_multiworker_training)

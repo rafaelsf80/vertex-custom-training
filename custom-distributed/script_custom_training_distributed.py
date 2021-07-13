@@ -96,7 +96,6 @@ with strategy.scope():
         optimizer='adam',
         metrics=['accuracy'])
 
-#log_dir=os.environ['AIP_TENSORBOARD_LOG_DIR']
 tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=TENSORBOARD_LOG_DIR, histogram_freq=1, profile_batch = '50,100')
 
 history = int_model.fit(int_train_ds, validation_data=int_val_ds, epochs=5, callbacks=[tensorboard_callback])

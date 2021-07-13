@@ -15,8 +15,8 @@ aiplatform.init(project=PROJECT_ID, staging_bucket=BUCKET)
 job = aiplatform.CustomTrainingJob(
     display_name="ml_in_the_cloud_custom_training_simple",
     script_path="script_custom_training.py",
-    container_uri="us-docker.pkg.dev/vertex-ai/training/tf-cpu.2-3:latest",
-    model_serving_container_image_uri="us-docker.pkg.dev/vertex-ai/prediction/tf2-cpu.2-3:latest",
+    container_uri="us-docker.pkg.dev/vertex-ai/training/tf-cpu.2-4:latest",
+    model_serving_container_image_uri="us-docker.pkg.dev/vertex-ai/prediction/tf2-cpu.2-4:latest",
 )
 model = job.run(
     replica_count=1
