@@ -1,0 +1,7 @@
+{
+    "python.pythonPath": "/usr/bin/python3",
+    "terminal.integrated.env.linux": {
+        "GOOGLE_APPLICATION_CREDENTIALS": "/Users/rafaelsanchez/git/vertex-pipelines-EXTERNAL/pipeline-custom-xgb/generatedata/keyfile.json",
+        "NODE_ENV": "development"
+    }
+}

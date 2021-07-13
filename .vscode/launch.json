@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Pipeline",
+            "type": "python",
+            "request": "launch",
+            "program": "/Users/rafaelsanchez/git/vertex-customtraining-EXTERNAL/pipeline-tfx/pipeline_dev.py", 
+            "console": "integratedTerminal",
+            "args": [],
+            "env": {
+                "GOOGLE_APPLICATION_CREDENTIALS": "/Users/rafaelsanchez/git/vertex-pipelines-EXTERNAL/pipeline-custom-xgb/generatedata/keyfile.json" 
+            }
+        }
+    ]
+}
