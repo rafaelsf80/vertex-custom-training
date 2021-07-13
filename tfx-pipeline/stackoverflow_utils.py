@@ -3,6 +3,7 @@ from __future__ import division
 from __future__ import print_function
 
 ############################################################################################
+# This file MUST be stored at GCS
 # See MODULE_FILE constant at pipeline.py to store this file
 #############################################################################################
 

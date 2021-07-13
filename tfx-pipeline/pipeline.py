@@ -137,7 +137,7 @@ absl.logging.set_verbosity(absl.logging.INFO)
 
 runner = tfx.orchestration.experimental.KubeflowV2DagRunner(
     config=tfx.orchestration.experimental.KubeflowV2DagRunnerConfig(),
-    output_filename='pipeline_dev.json')
+    output_filename='pipeline.json')
 
 _ = runner.run(
     _create_pipeline(
@@ -160,4 +160,4 @@ pipelines_client = client.AIPlatformClient(
     region=REGION,
 )
 
-_ = pipelines_client.create_run_from_job_spec('pipeline_dev.json')
+_ = pipelines_client.create_run_from_job_spec('pipeline.json')

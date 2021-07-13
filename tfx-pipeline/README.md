@@ -1,6 +1,6 @@
-# Vertex Pipelines demo (TFX) with Stackoverflow dataset
+# Vertex AI Training with TFX and Vertex Pipelines
 
-This demo shows how to run a vertex pipeline in two scenraios:
+This demo shows how to run a Vertex pipeline in two scenarios:
 * Using `tfx.components.Trainer` class (file `pipeline.py`)
 * Using `tfx.extensions.google_cloud_ai_platform.Trainer` class (file `pipeline_vertex.py`)
 
@@ -160,7 +160,7 @@ There are three types of custom components:
 
 ## Resources
 
-[1] [Vertex AI training](https://www.tensorflow.org/tfx/tutorials/tfx/gcp/vertex_pipelines_vertex_training)
+[1] [Vertex AI Training with TFX and Vertex Pipelines](https://www.tensorflow.org/tfx/tutorials/tfx/gcp/vertex_pipelines_vertex_training) (uses a tabular dataset)
 
 
 
