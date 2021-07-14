@@ -17,11 +17,12 @@ Use the tool `txt2tfrecord` to convert original dataset at https://storage.googl
 
 ## Instructions
 
-1. Create a Vertex notebook and install the Vertex SDK with `pip install google-cloud aiplatform`.
-2. Download `pipeline.py` or `pipeline_vertex.py` and modify the following constants: PROJECT_ID, REGION, PIPELINE_NAME, PIPELINE_ROOT, MODULE_FILE, ...
-3. Upload `stackoverflow_utils.py` or `stackoverflow_utils_vertex.py` to GCS and modify `MODULE_FILE` accordingly.
-4. If not using a Vertex notebook, configure your credentials with `gcloud auth application-default login` or alternativaly, set `GOOGLE_APPLICATION_CREDENTIALS` environment variable with a JSON key.
-5. Run the pipeline with `python pipeline.py`
+1. Create a Vertex notebook and install the Vertex SDK with `pip install google-cloud-aiplatform` 
+2. Install required TFX and and KFP versions with `pip install --upgrade tfx==0.30.0 kfp==1.6.1`.
+3. Download `pipeline.py` or `pipeline_vertex_trainer.py` and modify all constants like `PROJECT_ID`, `REGION`, `PIPELINE_NAME`, `PIPELINE_ROOT`, `MODULE_FILE`, ...
+4. Upload `stackoverflow_utils.py` or `stackoverflow_utils_vertex_trainer.py` to GCS and modify `MODULE_FILE` constant accordingly.
+5. If not using a Vertex notebook, configure your credentials with `gcloud auth application-default login` or alternativaly, set `GOOGLE_APPLICATION_CREDENTIALS` environment variable with a JSON key.
+5. Run the pipeline with `python pipeline.py` or `python pipeline_vertex_trainer.py`.
 
 ## Demo script
 
